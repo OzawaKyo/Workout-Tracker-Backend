@@ -19,6 +19,20 @@ model User {
   password String
   name     String @default("User")
   avatar   String? @default("https://api.dicebear.com/7.x/bottts/svg?seed=DefaultAvatar")
+  workouts Workout[] 
   createdAt DateTime @default(now())
 }
+
+model Workout {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?  // Facultatif
+  date        DateTime @default(now())
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 
