@@ -30,12 +30,18 @@ const getExercises = async (req, res) => {
 
         const totalExercises = await prisma.exercise.count({ where });
 
+        // 🔥 Ajoute les URLs des images
+        const exercisesWithImages = exercises.map(exercise => ({
+            ...exercise,
+            images: JSON.parse(exercise.images).map(img => `${process.env.BASE_URL || 'http://localhost:5000'}/images/${img}`)
+        }));
+
         res.json({
             total: totalExercises,
             page: parseInt(page),
             limit: take,
             totalPages: Math.ceil(totalExercises / take),
-            data: exercises
+            data: exercisesWithImages
         });
 
     } catch (error) {
@@ -44,7 +50,4 @@ const getExercises = async (req, res) => {
     }
 };
 
-  
-  
-  
-    export { getExercises };
+export { getExercises };
