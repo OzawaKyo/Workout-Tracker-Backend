@@ -59,9 +59,15 @@ model ExerciseOnWorkout {
   workoutId Int
   exerciseId String
 
+  weight    Float?   // Poids utilisé en kg (optionnel)
+  sets      Int      // Nombre de séries
+  reps      Int      // Nombre de répétitions
+  restTime  Int?     // Temps de repos en secondes (optionnel)
+
   workout   Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
   exercise  Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
 
   @@unique([workoutId, exerciseId]) // Un même exercice ne peut être ajouté qu'une fois à un workout
 }
+
 
