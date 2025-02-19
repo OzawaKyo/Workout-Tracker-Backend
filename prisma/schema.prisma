@@ -14,10 +14,11 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  password  String
-  avatar    String? // URL to the user's avatar (nullable)
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String
+  name     String @default("User")
+  avatar   String? @default("https://api.dicebear.com/7.x/bottts/svg?seed=DefaultAvatar")
   createdAt DateTime @default(now())
 }
 
