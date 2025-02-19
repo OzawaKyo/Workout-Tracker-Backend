@@ -120,5 +120,81 @@ router.post("/:workoutId/exercises", authMiddleware, async (req, res) => {
 
 router.post("/add-exercises", addExercisesToWorkout);
 
+router.get("/:id", async (req, res) => {
+    try {
+        const workoutId = parseInt(req.params.id);
+
+        const workout = await prisma.workout.findUnique({
+            where: { id: workoutId },
+            include: {
+                exercises: {
+                    include: {
+                        exercise: true, // Inclure les détails de l'exercice
+                    },
+                },
+            },
+        });
+
+        if (!workout) return res.status(404).json({ error: "Workout not found" });
+
+        res.json(workout);
+    } catch (error) {
+        console.error("Error fetching workout:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+router.put("/:workoutId/exercises/:exerciseId", async (req, res) => {
+    const { workoutId, exerciseId } = req.params;
+  const { weight, sets, reps, restTime } = req.body;
+
+  try {
+    const updated = await prisma.exerciseOnWorkout.updateMany({
+      where: {
+        workoutId: Number(workoutId), // Assure que c'est bien un Number
+        exerciseId: exerciseId, // Garde la string telle quelle
+      },
+      data: {
+        weight,
+        sets,
+        reps,
+        restTime,
+      },
+    });
+
+    if (updated.count === 0) {
+      return res.status(404).json({ error: "Exercise not found in this workout" });
+    }
+
+    res.json({ message: "Exercise updated successfully" });
+  } catch (error) {
+    console.error("Error updating exercise:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+  
+
+router.delete("/:workoutId/exercises/:exerciseId", async (req, res) => {
+    const { workoutId, exerciseId } = req.params;
+
+  try {
+    const deleted = await prisma.exerciseOnWorkout.deleteMany({
+      where: {
+        workoutId: Number(workoutId), // Conversion en Number
+        exerciseId: exerciseId, // ID sous forme de string
+      },
+    });
+
+    if (deleted.count === 0) {
+      return res.status(404).json({ error: "Exercise not found in this workout" });
+    }
+
+    res.json({ message: "Exercise removed from workout successfully" });
+  } catch (error) {
+    console.error("Error deleting exercise:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}); 
+
 
 export default router;
