@@ -84,4 +84,36 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     }
 });
 
+router.post("/:workoutId/exercises", authMiddleware, async (req, res) => {
+    const { workoutId } = req.params;
+    const { name, imageUrl, apiId } = req.body;
+    const userId = req.user.userId; // ID de l'utilisateur connecté
+  
+    try {
+      // Vérifier si le workout appartient à l'utilisateur
+      const workout = await prisma.workout.findUnique({
+        where: { id: Number(workoutId), userId },
+      });
+  
+      if (!workout) {
+        return res.status(404).json({ message: "Workout not found" });
+      }
+  
+      // Ajouter l'exercice au workout
+      const exercise = await prisma.workoutExercise.create({
+        data: {
+          workoutId: Number(workoutId),
+          name,
+          imageUrl,
+          apiId,
+        },
+      });
+  
+      res.status(201).json(exercise);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Something went wrong" });
+    }
+  });
+
 export default router;

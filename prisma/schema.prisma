@@ -30,9 +30,24 @@ model Workout {
   title       String
   description String?  // Facultatif
   date        DateTime @default(now())
-
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model Exercise {
+  id              String  @id @unique
+  name            String
+  force          String?
+  level          String?
+  mechanic       String?
+  equipment      String?
+  primaryMuscles String  @db.Text  // Stocké en JSON
+  secondaryMuscles String @db.Text  // Stocké en JSON
+  instructions   String  @db.Text  // Stocké en JSON
+  category       String?
+  images         String  @db.Text  // Stocké en JSON
+}
+
+
 
 
