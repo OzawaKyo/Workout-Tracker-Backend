@@ -32,6 +32,8 @@ model Workout {
   date        DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  exercises   ExerciseOnWorkout[] // Relation avec les exercices
+
 }
 
 model Exercise {
@@ -46,8 +48,20 @@ model Exercise {
   instructions   String  @db.Text  // Stocké en JSON
   category       String?
   images         String  @db.Text  // Stocké en JSON
+  workouts       ExerciseOnWorkout[] // Relation avec les workouts
+
 }
 
 
+// Table intermédiaire pour lier Workouts et Exercises
+model ExerciseOnWorkout {
+  id        Int      @id @default(autoincrement())
+  workoutId Int
+  exerciseId String
 
+  workout   Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise  Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([workoutId, exerciseId]) // Un même exercice ne peut être ajouté qu'une fois à un workout
+}
 
