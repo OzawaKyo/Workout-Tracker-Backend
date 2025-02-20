@@ -17,8 +17,8 @@ model User {
   id       Int     @id @default(autoincrement())
   email    String  @unique
   password String
-  name     String @default("User")
-  avatar   String? @default("https://api.dicebear.com/7.x/bottts/svg?seed=DefaultAvatar")
+  name     String
+  avatar   String? @default("1")
   workouts Workout[] 
   createdAt DateTime @default(now())
 }
