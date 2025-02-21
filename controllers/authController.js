@@ -16,7 +16,7 @@ export const register = async (req, res) => {
         email,
         password: hashedPassword,
         name: name || "Unknown",
-        avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Avatar1",
+        avatar: "1",
       },
     });
 
