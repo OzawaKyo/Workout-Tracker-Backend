@@ -201,6 +201,7 @@ router.post("/:workoutId/exercises", authMiddleware, async (req, res) => {
                 name,
                 imageUrl,
                 apiId,
+                sets,
             },
         });
 
