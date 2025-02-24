@@ -8,7 +8,8 @@
     "dev": "nodemon server.js",
     "start": "node server.js",
     "migrate": "prisma migrate deploy",
-    "build": "prisma generate"
+    "build": "prisma generate",
+    "exercise": "node importExercises.js"
   },
   "keywords": [],
   "author": "",
