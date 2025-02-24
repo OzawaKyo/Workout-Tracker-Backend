@@ -181,7 +181,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
 
 router.post("/:workoutId/exercises", authMiddleware, async (req, res) => {
     const { workoutId } = req.params;
-    const { name, imageUrl, apiId } = req.body;
+    const { name, imageUrl, apiId ,sets } = req.body;
     const userId = req.user.userId; // ID de l'utilisateur connecté
 
     try {
