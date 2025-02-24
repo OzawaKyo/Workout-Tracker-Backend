@@ -195,7 +195,7 @@ router.post("/:workoutId/exercises", authMiddleware, async (req, res) => {
         }
 
         // Ajouter l'exercice au workout
-        const exercise = await prisma.workoutExercise.create({
+        const exercise = await prisma.ExerciseOnWorkout.create({
             data: {
                 workoutId: Number(workoutId),
                 name,
