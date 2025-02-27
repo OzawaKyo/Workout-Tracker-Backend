@@ -34,7 +34,7 @@ const router = express.Router();
  */
 router.post("/", authMiddleware, async (req, res) => {
     try {
-        const { title, description } = req.body;
+        const { title, type, description } = req.body;
         const userId = req.user.userId;
 
         if (!title) {
@@ -42,7 +42,7 @@ router.post("/", authMiddleware, async (req, res) => {
         }
 
         const workout = await prisma.workout.create({
-            data: { title, description, userId },
+            data: { title,type, description, userId },
         });
 
         res.status(201).json(workout);
@@ -117,7 +117,7 @@ router.get("/", authMiddleware, async (req, res) => {
 router.put("/:id", authMiddleware, async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description } = req.body;
+        const { title,type, description } = req.body;
         const userId = req.user.userId;
 
         const workout = await prisma.workout.findUnique({ where: { id: parseInt(id) } });
@@ -128,7 +128,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
 
         const updatedWorkout = await prisma.workout.update({
             where: { id: parseInt(id) },
-            data: { title, description },
+            data: { title,type, description },
         });
 
         res.json(updatedWorkout);
