@@ -17,7 +17,7 @@ const getExercises = async (req, res) => {
         }
         if (muscle) {
             where.OR = [
-                { primaryMuscles: { has: muscle } }
+                { primaryMuscles: { contains: muscle } }
             ];
         }
 
