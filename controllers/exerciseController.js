@@ -13,7 +13,7 @@ const getExercises = async (req, res) => {
             where.name = { contains: name, mode: 'insensitive' };
         }
         if (equipment) {
-            where.equipment = { has: equipment, mode: 'insensitive' };
+            where.equipment = { contains: equipment, mode: 'insensitive' };
         }
         if (muscle) {
             where.OR = [
