@@ -34,6 +34,7 @@ const router = express.Router();
  */
 router.post("/", authMiddleware, async (req, res) => {
     try {
+        console.log("Request body:", req.body); // 🔍 Vérifier les données reçues
         const { title, type, description } = req.body;
         const userId = req.user.userId;
 
