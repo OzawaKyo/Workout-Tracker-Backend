@@ -13,12 +13,11 @@ const getExercises = async (req, res) => {
             where.name = { contains: name, mode: 'insensitive' };
         }
         if (equipment) {
-            where.equipment = { contains: equipment, mode: 'insensitive' };
+            where.equipment = { has: equipment, mode: 'insensitive' };
         }
         if (muscle) {
             where.OR = [
-                { primaryMuscles: { contains: muscle } },
-                { secondaryMuscles: { contains: muscle } }
+                { primaryMuscles: { has: muscle } }
             ];
         }
 
